@@ -1,1 +1,1 @@
-# qa_guru_course_2
+Tests for stepik.org
