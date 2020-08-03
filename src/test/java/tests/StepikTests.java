@@ -18,7 +18,7 @@ class StepikTests {
         // Переход на страницу тестируемого сайта
         open("https://stepik.org/");
         //Нажатие кнопки "Войти"
-        $("#ember201").click();
+        $(".navbar__auth_login").click();
         // Ввести логин
         $(byName("login")).setValue("test.user.pikabu@gmail.com");
         // Ввести пароль и нажать Enter
@@ -35,6 +35,7 @@ class StepikTests {
         //Нажатие на пункт "Профиль"
         $(".drop-down__body a").click();
         //Проверка отображения имени пользователя
+        $("img.navbar__profile-img").shouldBe(visible);
         $(".profile-header-widget__name-wrapper h1").shouldHave(text("Тестовый пользователь"));
     }
 
@@ -67,11 +68,11 @@ class StepikTests {
         //Подтвердить действие
         switchTo().alert().accept();
         //Проверить, что у объекта курса пропали контролы
-        Assertions.assertEquals(true,$$("course-widget__menu-toggler").size() ==0);
+        Assertions.assertEquals(0,$$("course-widget__menu-toggler").size());
         //Обновить страницу
         refresh();
         //Проверить,что список курсов пустой
-        Assertions.assertEquals(true,$$(".course-widget__main-info").size() ==0);
+        Assertions.assertEquals(0,$$(".course-widget__main-info").size());
     }
 
     @AfterEach
