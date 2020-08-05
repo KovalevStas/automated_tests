@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +20,12 @@ class StepikTests {
     private final String login = "test.user.pikabu@gmail.com";
     private final String password = "pikabu123";
 
+
     @Test
     void IncorrectAuthorizationTest() {
+        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
-        //Wait().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".navbar__auth_login")));
-        sleep(3000);
         //Нажатие кнопки "Войти"
         $(".navbar__auth_login").click();
         // Ввести логин
@@ -38,9 +39,9 @@ class StepikTests {
 
     @Test
     void checkProfileTest() {
+        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
-        sleep(3000);
         //Нажатие кнопки "Войти"
         $(".navbar__auth_login").click();
         // Ввести логин
@@ -60,10 +61,10 @@ class StepikTests {
 
     @Test
     void searchTest() {
+        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
         //Нажатие кнопки "Войти"
-        sleep(3000);
         $(".navbar__auth_login").click();
         // Ввести логин
         $(byName("login")).setValue(login);
@@ -79,9 +80,9 @@ class StepikTests {
 
     @Test
     void joinAndExitCourseTest() {
+        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
-        sleep(3000);
         //Нажатие кнопки "Войти"
         $(".navbar__auth_login").click();
         // Ввести логин
@@ -112,11 +113,11 @@ class StepikTests {
         Assertions.assertEquals(0, $$(".course-widget__main-info").size());
     }
 
-  /*  @AfterEach
+    @AfterEach
     void exit() {
-        $(".navbar__profile-img").click();
+        /*$(".navbar__profile-img").click();
         $(".drop-down__body button", 1).click();
-        switchTo().alert().accept();
+        switchTo().alert().accept();*/
         closeWindow();
-    }*/
+    }
 }
