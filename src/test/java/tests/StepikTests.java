@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -22,6 +23,7 @@ class StepikTests {
     void IncorrectAuthorizationTest() {
         // Переход на страницу тестируемого сайта
         open(url);
+        //Wait().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".navbar__auth_login")));
         sleep(3000);
         //Нажатие кнопки "Войти"
         $(".navbar__auth_login").click();
@@ -31,7 +33,7 @@ class StepikTests {
         $(byName("password")).setValue("123").pressEnter();
         // Проверить наличие срообщения об ошибке
         $("ul.sign-form__messages li[role='alert']").shouldBe(visible);
-        $(".modal-dialog-top__close").click();
+        //$(".modal-dialog-top__close").click();
     }
 
     @Test
