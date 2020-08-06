@@ -1,12 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -20,10 +15,13 @@ class StepikTests {
     private final String login = "test.user.pikabu@gmail.com";
     private final String password = "pikabu123";
 
+        @BeforeAll
+        static void config(){
+            Configuration.timeout = 10000;
+        }
 
     @Test
     void IncorrectAuthorizationTest() {
-        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
         //Нажатие кнопки "Войти"
@@ -39,7 +37,6 @@ class StepikTests {
 
     @Test
     void checkProfileTest() {
-        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
         //Нажатие кнопки "Войти"
@@ -61,7 +58,6 @@ class StepikTests {
 
     @Test
     void searchTest() {
-        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
         //Нажатие кнопки "Войти"
@@ -80,7 +76,6 @@ class StepikTests {
 
     @Test
     void joinAndExitCourseTest() {
-        Configuration.timeout = 10000;
         // Переход на страницу тестируемого сайта
         open(url);
         //Нажатие кнопки "Войти"
