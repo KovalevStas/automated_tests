@@ -10,102 +10,95 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 class StepikTests {
-
     private final String url = "https://stepik.org/";
     private final String login = "test.user.pikabu@gmail.com";
     private final String password = "pikabu123";
 
-        @BeforeAll
-        static void config(){
-            Configuration.timeout = 10000;
-        }
+    @BeforeAll
+    static void config(){
+        Configuration.timeout = 10000;
+    }
 
     @Test
-    void IncorrectAuthorizationTest() {
-        // Переход на страницу тестируемого сайта
+    void unSuccessfulAuthorizationTest() {
         open(url);
-        //Нажатие кнопки "Войти"
-        $(".navbar__auth_login").click();
-        // Ввести логин
-        $(byName("login")).setValue(login);
-        // Ввести пароль и нажать Enter
+        
+        $(".navbar__auth_login").click(); // Нажатие кнопки "Войти"
+        $(byName("login")).setValue(login); // $("#id_login_email").setValue(login);
         $(byName("password")).setValue("123").pressEnter();
-        // Проверить наличие срообщения об ошибке
-        $("ul.sign-form__messages li[role='alert']").shouldBe(visible);
+        
+        $("ul.sign-form__messages li[role='alert']").shouldBe(visible); // Проверка наличия срообщения об ошибке
         //$(".modal-dialog-top__close").click();
     }
 
     @Test
     void checkProfileTest() {
-        // Переход на страницу тестируемого сайта
         open(url);
-        //Нажатие кнопки "Войти"
-        $(".navbar__auth_login").click();
-        // Ввести логин
+        
+        $(".navbar__auth_login").click(); // Нажатие кнопки "Войти"
         $(byName("login")).setValue(login);
-        // Ввести пароль и нажать Enter
         $(byName("password")).setValue(password).pressEnter();
-        // Проверить наличие аватара пользователя
-        $(".navbar__profile-img").isEnabled();
-        //Вызов выпадающего меню
-        $(".navbar__profile-img").click();
-        //Нажатие на пункт "Профиль"
-        $(".drop-down__body a").click();
+        
+        // $(".navbar__profile-img").isEnabled(); // Проверить наличие аватара пользователя
+        // assertTrue($(".navbar__profile-img").isEnabled())
+        $(".navbar__profile-img").shouldBe(enabled).click(); // Вызов выпадающего меню
+        $(".drop-down__body a").click(); // Нажатие на пункт "Профиль"
+        
         //Проверка отображения имени пользователя
-        $("img.navbar__profile-img").shouldBe(visible);
-        $(".profile-header-widget__name-wrapper h1").shouldHave(text("Тестовый пользователь"));
+        $(".profile-header-widget__name").shouldHave(text("Тестовый пользователь"));
     }
 
     @Test
     void searchTest() {
-        // Переход на страницу тестируемого сайта
         open(url);
-        //Нажатие кнопки "Войти"
-        $(".navbar__auth_login").click();
-        // Ввести логин
+        
+        $(".navbar__auth_login").click(); // Нажатие кнопки "Войти"
         $(byName("login")).setValue(login);
-        // Ввести пароль и нажать Enter
         $(byName("password")).setValue(password).pressEnter();
+        
         $(byText("Каталог")).click();
         //$(".st-course-filters").shouldHave(text("Математика")).click();
         //Вводим запрос в поле поиска
         $(".explore__search__input-wrapper input[placeholder = 'Поиск по каталогу']").setValue("Уравнения").pressEnter();
+        $(by("placeholder", "Поиск по каталогу").setValue("Уравнения").pressEnter();
+       
         //Проверяем результат поиска
         $(".course-pack").shouldHave(text("Уравнения"));
     }
 
     @Test
     void joinAndExitCourseTest() {
-        // Переход на страницу тестируемого сайта
         open(url);
-        //Нажатие кнопки "Войти"
-        $(".navbar__auth_login").click();
-        // Ввести логин
+        
+        $(".navbar__auth_login").click(); // Нажатие кнопки "Войти"
         $(byName("login")).setValue(login);
-        // Ввести пароль и нажать Enter
         $(byName("password")).setValue(password).pressEnter();
-        //Найти курс и перейти на его страницу
+        
+        // Найти курс и перейти на его страницу
         $(byText("Машинное обучение и управление проектами в IT для преподавателей")).click();
-        //Записаться на курс
+        // Записаться на курс
         $(byText("Поступить на курс")).click();
-        //Дождаться загрузки страницы первого урока
+        // Дождаться загрузки страницы первого урока
         $(".lesson-sidebar__course-title").shouldBe(visible);
-        //Открыть список меню пользователя и перейти в пункт "Мои курсы"
+        // Открыть список меню пользователя и перейти в пункт "Мои курсы"
         $(".navbar__profile-img").click();
         $(".drop-down__body a", 1).click();
-        //Проверить наличие курса в списке курсов пользователя
+        // Проверить наличие курса в списке курсов пользователя
         $(".course-widget__main-info a").shouldHave(text("Машинное обучение и управление проектами в IT для преподавателей"));
-        //Покинуть курс
+        // Покинуть курс
         $(".course-widget__menu").click();
         $(byText("Покинуть")).click();
         //Подтвердить действие
         switchTo().alert().accept();
-        //Проверить, что у объекта курса пропали контролы
-        Assertions.assertEquals(0, $$("course-widget__menu-toggler").size());
+        
+        // Проверить, что у объекта курса пропали контролы
+        // Assertions.assertEquals(0, $$(".course-widget__menu-toggler").size());
+        $$(".course-widget__menu-toggler").shouldHave(size(0));
         //Обновить страницу
         refresh();
-        //Проверить,что список курсов пустой
-        Assertions.assertEquals(0, $$(".course-widget__main-info").size());
+        // Проверить,что список курсов пустой
+        // Assertions.assertEquals(0, $$(".course-widget__main-info").size());
+        $$(".course-widget__main-info").shouldHave(size(0));
     }
 
     @AfterEach
